@@ -32,6 +32,7 @@ namespace Asamblor
             this.menu = new System.Windows.Forms.MenuStrip();
             this.openFileBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.parseFileBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateBinaryFileBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.initialCodeTxtBox = new System.Windows.Forms.RichTextBox();
             this.parsedASMCodeLbl = new System.Windows.Forms.Label();
             this.parsedCodeTxtBox = new System.Windows.Forms.RichTextBox();
@@ -50,7 +51,8 @@ namespace Asamblor
             this.menu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openFileBtn,
-            this.parseFileBtn});
+            this.parseFileBtn,
+            this.generateBinaryFileBtn});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(749, 24);
@@ -71,18 +73,24 @@ namespace Asamblor
             this.parseFileBtn.Size = new System.Drawing.Size(68, 20);
             this.parseFileBtn.Text = "Parse File";
             // 
+            // generateBinaryFileBtn
+            // 
+            this.generateBinaryFileBtn.Name = "generateBinaryFileBtn";
+            this.generateBinaryFileBtn.Size = new System.Drawing.Size(94, 20);
+            this.generateBinaryFileBtn.Text = "Get Binary File";
+            // 
             // initialCodeTxtBox
             // 
             this.initialCodeTxtBox.Location = new System.Drawing.Point(12, 64);
             this.initialCodeTxtBox.Name = "initialCodeTxtBox";
-            this.initialCodeTxtBox.Size = new System.Drawing.Size(149, 179);
+            this.initialCodeTxtBox.Size = new System.Drawing.Size(109, 179);
             this.initialCodeTxtBox.TabIndex = 1;
             this.initialCodeTxtBox.Text = "";
             // 
             // parsedASMCodeLbl
             // 
             this.parsedASMCodeLbl.AutoSize = true;
-            this.parsedASMCodeLbl.Location = new System.Drawing.Point(199, 37);
+            this.parsedASMCodeLbl.Location = new System.Drawing.Point(170, 37);
             this.parsedASMCodeLbl.Name = "parsedASMCodeLbl";
             this.parsedASMCodeLbl.Size = new System.Drawing.Size(101, 15);
             this.parsedASMCodeLbl.TabIndex = 3;
@@ -90,9 +98,9 @@ namespace Asamblor
             // 
             // parsedCodeTxtBox
             // 
-            this.parsedCodeTxtBox.Location = new System.Drawing.Point(199, 64);
+            this.parsedCodeTxtBox.Location = new System.Drawing.Point(168, 64);
             this.parsedCodeTxtBox.Name = "parsedCodeTxtBox";
-            this.parsedCodeTxtBox.Size = new System.Drawing.Size(149, 179);
+            this.parsedCodeTxtBox.Size = new System.Drawing.Size(121, 179);
             this.parsedCodeTxtBox.TabIndex = 4;
             this.parsedCodeTxtBox.Text = "";
             // 
@@ -108,7 +116,7 @@ namespace Asamblor
             // 
             this.succededParseLbl.AutoSize = true;
             this.succededParseLbl.ForeColor = System.Drawing.Color.Red;
-            this.succededParseLbl.Location = new System.Drawing.Point(298, 37);
+            this.succededParseLbl.Location = new System.Drawing.Point(269, 37);
             this.succededParseLbl.Name = "succededParseLbl";
             this.succededParseLbl.Size = new System.Drawing.Size(0, 15);
             this.succededParseLbl.TabIndex = 6;
@@ -142,7 +150,7 @@ namespace Asamblor
             // 
             // binaryTxt
             // 
-            this.binaryTxt.Location = new System.Drawing.Point(389, 64);
+            this.binaryTxt.Location = new System.Drawing.Point(348, 63);
             this.binaryTxt.Name = "binaryTxt";
             this.binaryTxt.Size = new System.Drawing.Size(195, 179);
             this.binaryTxt.TabIndex = 9;
@@ -151,7 +159,7 @@ namespace Asamblor
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(389, 37);
+            this.label1.Location = new System.Drawing.Point(348, 37);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 15);
             this.label1.TabIndex = 10;
@@ -200,6 +208,7 @@ namespace Asamblor
         private System.Windows.Forms.Label openErrorLbl;
         private System.Windows.Forms.RichTextBox binaryTxt;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem generateBinaryFileBtn;
     }
 }
 

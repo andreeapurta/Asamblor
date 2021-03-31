@@ -4,7 +4,7 @@ namespace Asamblor
 {
     public class RegisterRepository
     {
-        private Dictionary<string, string> Registers { get; set; }
+        public Dictionary<string, string> Registers { get; set; }
 
         public RegisterRepository()
         {

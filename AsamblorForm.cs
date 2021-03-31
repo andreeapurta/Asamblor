@@ -44,7 +44,6 @@ namespace Asamblor
         {
             openFileBtn.Click += new EventHandler(OpenFile_Clicked);
             parseFileBtn.Click += new EventHandler(ParseFile_Clicked);
-            parseFileBtn.Click += new EventHandler(ShowBinaryCode_Clicked);
         }
 
         private void OpenFile_Clicked(object sender, EventArgs e)
@@ -141,174 +140,141 @@ namespace Asamblor
         {
             int number = 0;
             string label;
-            string index = "";
-            string indirect = "";
-            string opr = "";
-            string register = "";
-            int mightBeIndex = 0;
-            List<string> registers = new List<string>();
-            registers[0] = "0";
-            registers[1] = "0";
-            string IR;
-            foreach (var item in asmElements)
+            string offset = "";
+            List<(string, string, string)> operands = new List<(string, string, string)>();
+            string IR = "";
+            label = "";
+
+            //operands[0]- contine  registru + mad + daca e indexat
+            //operands[1] - contine  registru + mas + daca e indexat
+            for (int i = 0; i < asmElements.Count; i++)
             {
-                label = "";
-                IR = "";
-
-                //check if the repositories contain the item, if they don't the variables = ""
-                opr = operatorRepository.GetValue(item);
-                register = registerRepository.GetValue(item);
-
-                if (operatorRepository.OtherOperators.ContainsKey(item))
+                var item = asmElements[i];
+                
+                //daca pe linie exista un string care  paote fi convertit in numar il adaug in operands - pt adresarea imediata 
+                if (Int32.TryParse(item, out number))
                 {
-                    IR = opr;
-                    TryToGenerateBinaryCodeFor1OperandInstructions(IR);
+                    operands.Add(("0000", "00", item));
                 }
-                //for operators
-                if (opr != "")
+                //verific daca am MOV, r4.. chestii care sunt mai mici de 3  // tot ce e adresare directa
+                else if (item.Length <= 3)
                 {
-                    IR = opr;
-                }
-
-                //a list of 2 elemnts that stores the registers
-                //if the array exceeds 2 => list.Clear
-
-                if (register != "")
-                {
-                    registers.Add(register);
-                }
-
-                //checking for labels (the labels start with lbl_)
-                if (item.Contains("lbl_"))
-                {
-                    label = item;
-                }
-                //pt adresare indexata
-                if (item.Contains("(") && item.Contains(")"))
-                {
-                    if (registerRepository.Contains(item.Split('(', ')')[1]))
+                    //daca gasim Registru (R5)
+                    if (registerRepository.Registers.ContainsKey(item))
                     {
-                        indirect = registerRepository.GetValue(item.Split('(', ')')[1]);
+                        operands.Add((registerRepository.Registers[item], "01", "-"));
+                    }
+                    //daca gasim ca e oppcode
+                    else if (operatorRepository.Operators.ContainsKey(item))
+                    {
+                        if (IR != "")
+                        {
+                            var instruction = "";
+                            if (operands.Count == 1)
+                            {
+                                // cu un operand
+                                instruction = IR + operands[0];
+
+                                //sau e branch
+                                if (offset != "")
+                                {
+                                    instruction = IR + offset;
+                                    offset = "";
+                                }
+                            }
+                            else if (operands.Count == 2)
+                            {
+                                //Mov R5,R4 - oppcode + mas+ rs+mad+rd
+                                // //operands[0]- contine  registru + mad + daca e indexat
+                                //operands[1] - contine  registru + mas + daca e indexat
+                                instruction = IR + operands[1].Item2 + operands[1].Item1 + operands[0].Item2 + operands[0].Item1;
+                            }
+                            else
+                            {
+                                instruction = IR;
+                            }
+                            operands.Clear();
+                        }
+
+                        //daca am gasit o instructiunea noua
+                        IR = item;
+                        if (IR.Contains("B"))
+                        {
+                            offset = asmElements[i + 1];
+                            //sa sara peste urmatorul rand daca o gasit offset
+                            i++;
+                        }
+                    }
+                }
+                else
+                { //instr > 3 PUSH PUSHF
+                    if (operatorRepository.Operators.ContainsKey(item))
+                    {
+                        //reset -
+                        if (IR != "")
+                        {
+                            var instruction = "";
+                            if (operands.Count == 1)
+                            {
+                                // cu un operand
+                                instruction = IR + operands[0];
+
+                                //sau e branch
+                                if (offset != "")
+                                {
+                                    instruction = IR + offset;
+                                    offset = "";
+                                }
+                            }
+                            else if (operands.Count == 2)
+                            {
+                                instruction = IR + operands[1].Item2 + operands[1].Item1 + operands[0].Item2 + operands[0].Item1;
+                            }
+                            else
+                            {
+                                instruction = IR;
+                            }
+                            operands.Clear();
+                            //apelezi binary //binarywrite
+                        }
+
+                        IR = operatorRepository.Operators[item];
+
                     }
                     else
                     {
-                        index = item.Split('(', ')')[1];
+                        if (item.Contains("(") && item.Contains(")"))
+                        {
+                            if (item.Contains("+"))
+                            {
+                                //indexata // in stanga de ex R4 si in dreapta 5
+                                var split = item.Split("+");
+                                //am scos parantez
+                                //MOV R4,[R4+5]
+                                // opp + mas + rs + mad + rd 
+                                // //operands[0]- contine  registru + mad + daca e indexat
+                                //operands[1] - contine  registru + mas + daca e indexat
+                                operands.Add((split[0].Substring(1, split[0].Length - 1), "11", split[1].Substring(0, split[1].Length - 1)));
+                            }
+                            else
+                            {   //[R4]
+                                //prima si ultima parannteza
+                                operands.Add((item.Substring(1, item.Length - 2), "10", "-"));
+                            }
+                        }
                     }
-
-                    mightBeIndex = 1;
-                }
-                if (opr == "" && register == "" && !item.Contains("lbl_") && index == "")
-                {
-                    number = Convert.ToInt32(item); //4
-                }
-
-                //Mov R4,4 - refers to number
-                //Mov R4, R4(4) - refers to adresare indexata
-                TryToGenerateBinaryCodeFor2OperandsInstructions(IR, registers[0], registers[1], number, index, indirect, label);
-                if (registers.Count == 2 || (registers.Count == 1 && number != 0) || (registers.Count == 1 && index != "") || (registers.Count == 1 && indirect != ""))
-                {
-                    number = 0;
-                    index = "";
-                    registers.Clear();
                 }
             }
         }
 
-        //Mov R4,5
-        //Mov R4,(R5)
-        //Eticheta: ADD R1,R2 (7) /// R1<-[R2+7] ?!?!?!
-        //ADD R1, R2
+        //adresare indexata (R4+1)
+        // ADREASRE INDIRECTA(R6)
 
         //ADD (7) R1,R2 - NU  exista la noi asa cva
 
-        private void TryToGenerateBinaryCodeFor1OperandInstructions(string operandOpcode)
-        {
-            binaryElements.Add(operandOpcode);
-        }
-
-        private void TryToGenerateBinaryCodeFor2OperandsInstructions(string operandOpcode, string sourceRegister, string destinationRegister, int number, string index, string indirect, string label)
-        {
-            string binaryNumber = "";
-            string mad = "";
-            string mas = "";
-
-            //directa ->ADD R4,R5 - mad=mas=01
-            if (sourceRegister != "" && destinationRegister != "")
-            {
-                mad = "01";
-                mas = "01";
-                binaryElements.Add(operandOpcode + mas + sourceRegister + mad + destinationRegister);
-            }
-
-            //imediata -> MOV R4,5 mad=01 (direct) mas =00 (imediat)
-            else if (destinationRegister != "" && number != 0)
-            {
-                binaryNumber = ConvertIntoBinary(number);
-                mad = "01";
-                mas = "00";
-                binaryElements.Add(operandOpcode + mas + binaryNumber + mad + destinationRegister);
-            }
-            //indirecta -> Mov R4,(R5) mad = 01 (direct) mas=10 (indirect)
-            else if (destinationRegister != "" && indirect != "")
-            {
-                mad = "01";
-                mas = "10";
-                binaryElements.Add(operandOpcode + mas + indirect + mad + destinationRegister);
-            }
-            //indirecta -> Mov (R4),R5 mad = 11 (indirect) mas =01 (direct)
-            else if (sourceRegister != "" && indirect != "")
-            {
-                mad = "11";
-                mas = "01";
-                binaryElements.Add(operandOpcode + mas + indirect + mad + sourceRegister);
-            }
-            //indexata -> ADD R1,R2 (7) -> mad = 01 (direct) mas=11(indexat) ????????????????????
-            else if (sourceRegister != "" && destinationRegister != "" && index != "")
-            {
-                mad = "01";
-                mas = "11";
-                binaryElements.Add(operandOpcode + mas + sourceRegister + mad + destinationRegister);
-            }
-        }
-
-        private string ConvertIntoBinary(int number)
-        {
-            int k = 16;
-            bool neg = false;
-            int a = 0;
-            if (number < 0)
-            {
-                neg = true;
-                number *= -1;
-                number--;
-            }
-            string num = null;
-            string x = null;
-            for (int i = 0; i < k; i++)
-            {
-                if (neg)
-                {
-                    a = number % 2;
-                    if (a == 1) x = string.Concat(Convert.ToString(0), num);
-                    else x = string.Concat(Convert.ToString(1), num);
-                }
-                else
-                    x = string.Concat(Convert.ToString(number % 2), num);
-                num = x;
-                number /= 2;
-            }
-
-            return x;
-        }
-
         private void ShowBinaryCode_Clicked(object sender, EventArgs e)
         {
-            GetInstructions();
-            foreach (String binaryCode in binaryElements)
-            {
-                binaryTxt.Text += binaryCode + Environment.NewLine;
-            }
-            /* Display an information about the process completion */
+
         }
     }
 }
