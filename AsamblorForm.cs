@@ -44,6 +44,7 @@ namespace Asamblor
         {
             openFileBtn.Click += new EventHandler(OpenFile_Clicked);
             parseFileBtn.Click += new EventHandler(ParseFile_Clicked);
+            generateBinaryFileBtn.Click += new EventHandler(ShowBinaryCode_Clicked);
         }
 
         private void OpenFile_Clicked(object sender, EventArgs e)
@@ -139,22 +140,26 @@ namespace Asamblor
         private void GetInstructions()
         {
             int number = 0;
-            string label;
             string offset = "";
+            int lineCount = 0;
+            List<(string, int)> Labels = new List<(string, int)>();
             List<(string, string, string)> operands = new List<(string, string, string)>();
             string IR = "";
-            label = "";
+
 
             //operands[0]- contine  registru + mad + daca e indexat
             //operands[1] - contine  registru + mas + daca e indexat
             for (int i = 0; i < asmElements.Count; i++)
             {
                 var item = asmElements[i];
-                
+
+
+
                 //daca pe linie exista un string care  paote fi convertit in numar il adaug in operands - pt adresarea imediata 
                 if (Int32.TryParse(item, out number))
                 {
                     operands.Add(("0000", "00", item));
+                    lineCount += 2;
                 }
                 //verific daca am MOV, r4.. chestii care sunt mai mici de 3  // tot ce e adresare directa
                 else if (item.Length <= 3)
@@ -170,17 +175,28 @@ namespace Asamblor
                         if (IR != "")
                         {
                             var instruction = "";
+                            lineCount += 2;
+
+                            //sau e branch
+                            if (offset != "")
+                            {
+
+                                instruction = IR;
+                                foreach (var label in Labels)
+                                {
+                                    if (label.Item1.Equals(offset))
+                                    {
+                                        instruction += CreateOffsetForLabel(lineCount - label.Item2);
+
+                                    }
+                                }
+                            }
+
                             if (operands.Count == 1)
                             {
                                 // cu un operand
                                 instruction = IR + operands[0];
 
-                                //sau e branch
-                                if (offset != "")
-                                {
-                                    instruction = IR + offset;
-                                    offset = "";
-                                }
                             }
                             else if (operands.Count == 2)
                             {
@@ -188,17 +204,19 @@ namespace Asamblor
                                 // //operands[0]- contine  registru + mad + daca e indexat
                                 //operands[1] - contine  registru + mas + daca e indexat
                                 instruction = IR + operands[1].Item2 + operands[1].Item1 + operands[0].Item2 + operands[0].Item1;
+
                             }
                             else
                             {
                                 instruction = IR;
                             }
                             operands.Clear();
+                            PrintInstruction(instruction);
                         }
 
                         //daca am gasit o instructiunea noua
-                        IR = item;
-                        if (IR.Contains("B"))
+                        IR = operatorRepository.GetValue(item);
+                        if (IR.Contains("b"))
                         {
                             offset = asmElements[i + 1];
                             //sa sara peste urmatorul rand daca o gasit offset
@@ -207,19 +225,26 @@ namespace Asamblor
                     }
                 }
                 else
-                { //instr > 3 PUSH PUSHF
+                { //instr > 3 PUSH PUSHF sau etichete
+                    //i = lineCount
+                    if (item.Contains("et_"))
+                    {
+                        Labels.Add((item, i));
+                    }
+
                     if (operatorRepository.Operators.ContainsKey(item))
                     {
                         //reset -
                         if (IR != "")
                         {
                             var instruction = "";
+                            lineCount += 2;
                             if (operands.Count == 1)
                             {
                                 // cu un operand
                                 instruction = IR + operands[0];
 
-                                //sau e branch
+                                ////sau e branch
                                 if (offset != "")
                                 {
                                     instruction = IR + offset;
@@ -235,7 +260,7 @@ namespace Asamblor
                                 instruction = IR;
                             }
                             operands.Clear();
-                            //apelezi binary //binarywrite
+                            PrintInstruction(instruction);
                         }
 
                         IR = operatorRepository.Operators[item];
@@ -244,7 +269,7 @@ namespace Asamblor
                     else
                     {
                         if (item.Contains("(") && item.Contains(")"))
-                        {
+                        { //adresare indexata
                             if (item.Contains("+"))
                             {
                                 //indexata // in stanga de ex R4 si in dreapta 5
@@ -255,6 +280,7 @@ namespace Asamblor
                                 // //operands[0]- contine  registru + mad + daca e indexat
                                 //operands[1] - contine  registru + mas + daca e indexat
                                 operands.Add((split[0].Substring(1, split[0].Length - 1), "11", split[1].Substring(0, split[1].Length - 1)));
+                                lineCount += 2;
                             }
                             else
                             {   //[R4]
@@ -272,9 +298,45 @@ namespace Asamblor
 
         //ADD (7) R1,R2 - NU  exista la noi asa cva
 
+        private void PrintInstruction(string instruction)
+        {
+            binaryTxt.Text += instruction + Environment.NewLine;
+        }
+
         private void ShowBinaryCode_Clicked(object sender, EventArgs e)
         {
-
+            GetInstructions();
         }
+
+        private string CreateOffsetForLabel(int n)
+        {
+            int k = 8;
+            bool neg = false;
+            int a = 0;
+            if (n < 0)
+            {
+                neg = true;
+                n *= -1;
+                n--;
+            }
+            string num = null;
+            string x = null;
+            for (int i = 0; i < k; i++)
+            {
+                if (neg)
+                {
+                    a = n % 2;
+                    if (a == 1) x = string.Concat(Convert.ToString(0), num);
+                    else x = string.Concat(Convert.ToString(1), num);
+                }
+                else
+                    x = string.Concat(Convert.ToString(n % 2), num);
+                num = x;
+                n /= 2;
+            }
+
+            return x;
+        }
+
     }
 }

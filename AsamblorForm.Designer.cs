@@ -83,7 +83,7 @@ namespace Asamblor
             // 
             this.initialCodeTxtBox.Location = new System.Drawing.Point(12, 64);
             this.initialCodeTxtBox.Name = "initialCodeTxtBox";
-            this.initialCodeTxtBox.Size = new System.Drawing.Size(109, 179);
+            this.initialCodeTxtBox.Size = new System.Drawing.Size(139, 179);
             this.initialCodeTxtBox.TabIndex = 1;
             this.initialCodeTxtBox.Text = "";
             // 
@@ -98,9 +98,9 @@ namespace Asamblor
             // 
             // parsedCodeTxtBox
             // 
-            this.parsedCodeTxtBox.Location = new System.Drawing.Point(168, 64);
+            this.parsedCodeTxtBox.Location = new System.Drawing.Point(170, 64);
             this.parsedCodeTxtBox.Name = "parsedCodeTxtBox";
-            this.parsedCodeTxtBox.Size = new System.Drawing.Size(121, 179);
+            this.parsedCodeTxtBox.Size = new System.Drawing.Size(160, 179);
             this.parsedCodeTxtBox.TabIndex = 4;
             this.parsedCodeTxtBox.Text = "";
             // 

@@ -74,10 +74,10 @@ namespace Asamblor
             OtherOperators.Add("ret", "1110000000001011");
             OtherOperators.Add("halt", "1110000000001100");
             OtherOperators.Add("wait", "1110000000001101");
-            OtherOperators.Add("push_pc", "1100000000001110");
-            OtherOperators.Add("pop_pc", "1100000000001111");
-            OtherOperators.Add("push_flag", "1100000000010000");
-            OtherOperators.Add("pop_flag", "1100000000010001");
+            OtherOperators.Add("pushpc", "1100000000001110");
+            OtherOperators.Add("poppc", "1100000000001111");
+            OtherOperators.Add("pushflag", "1100000000010000");
+            OtherOperators.Add("popflag", "1100000000010001");
             OtherOperators.Add("reti", "1100000000010010");
         }
 
