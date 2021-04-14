@@ -13,7 +13,7 @@ namespace Asamblor
         public RegisterRepository registerRepository;
         /* List which will store each token (element) read from ASM file */
         private List<String> asmElements = new List<String>();
-        private List<String> binaryElements = new List<String>();
+        private List<(string, int)> Labels = new List<(string, int)>();
         private string fileName = "";
 
         public AsamblorForm()
@@ -80,7 +80,7 @@ namespace Asamblor
                 /* Reinitialize the Text property of OutputTextBox */
                 parsedCodeTxtBox.Text = "";
                 /* Define delimiters in ASM file */
-                String[] delimiters = { ":", ",", " " };
+                String[] delimiters = { ",", " " };
 
                 /* Specify that the elements in ASM file are delimited by some characters */
                 parser.TextFieldType = FieldType.Delimited;
@@ -133,12 +133,29 @@ namespace Asamblor
             }
         }
 
+        private void FindLabels()
+        {
+            var lineCount = 0;
+            int number = 0;
+            for (int i = 0; i < asmElements.Count; i++)
+            {
+                var item = asmElements[i];
+                if (Int32.TryParse(item, out number) || operatorRepository.Operators.ContainsKey(item) || item.Contains("+"))
+                {
+                    lineCount += 2;
+                }
+                if (item.Contains("et_") && item.Contains(":"))
+                {
+                    Labels.Add((item, lineCount));
+                }
+            }
+        }
+
         private void GetInstructions()
         {
+            var lineCount = 0;
             int number = 0;
             string offset = "";
-            int lineCount = 0;
-            List<(string, int)> Labels = new List<(string, int)>();
             List<(string, string, string)> operands = new List<(string, string, string)>();
             string IR = "";
 
@@ -151,8 +168,7 @@ namespace Asamblor
                 //daca pe linie exista un string care  paote fi convertit in numar il adaug in operands - pt adresarea imediata
                 if (Int32.TryParse(item, out number))
                 {
-                    number = Convert.ToInt32(item);
-                    operands.Add((CreateBinaryValueForNumber(number, 4), "00", "-"));
+                    operands.Add(("0000", "00", item));
                     lineCount += 2;
                 }
                 //verific daca am MOV, r4.. chestii care sunt mai mici de 3  // tot ce e adresare directa
@@ -166,10 +182,10 @@ namespace Asamblor
                     //daca gasim ca e oppcode
                     else if (operatorRepository.Operators.ContainsKey(item))
                     {
+                        //eliberare instructiune daca o gasit oppcode
                         if (IR != "")
                         {
                             var instruction = "";
-                            lineCount += 2;
 
                             //sau e branch
                             if (offset != "")
@@ -177,14 +193,14 @@ namespace Asamblor
                                 instruction = IR;
                                 foreach (var label in Labels)
                                 {
-                                    if (label.Item1.Equals(offset))
+                                    if (label.Item1.Contains(offset))
                                     {
-                                        instruction += CreateOffsetForLabel(lineCount - label.Item2);
+                                        instruction += CreateBinaryValueForNumber(lineCount - label.Item2, 8);
                                     }
                                 }
+                                offset = "";
                             }
-
-                            if (operands.Count == 1)
+                            else if (operands.Count == 1)
                             {
                                 // cu un operand
                                 instruction = IR + operands[0].Item2 + operands[0].Item1;
@@ -200,13 +216,24 @@ namespace Asamblor
                             {
                                 instruction = IR;
                             }
-                            operands.Clear();
                             PrintInstruction(instruction);
+                            //daca e index sau imediata - adaugi 2 octeti adica codificarea pe biti a valorii
+                            foreach (var operand in operands)
+                            {
+                                if (operand.Item3 != "-")
+                                {
+                                    var octet = CreateBinaryValueForNumber(Convert.ToInt32(operand.Item3), 16);
+                                    PrintInstruction("operand octet:" + octet);
+                                }
+                            }
+
+                            operands.Clear();
                         }
 
                         //daca am gasit o instructiunea noua
                         IR = operatorRepository.GetValue(item);
-                        if (IR.Contains("b"))
+                        lineCount += 2;
+                        if (item.Contains("b"))
                         {
                             offset = asmElements[i + 1];
                             //sa sara peste urmatorul rand daca o gasit offset
@@ -216,12 +243,6 @@ namespace Asamblor
                 }
                 else
                 { //instr > 3 PUSH PUSHF sau etichete
-                    //i = lineCount
-                    if (item.Contains("et_"))
-                    {
-                        Labels.Add((item, i));
-                    }
-
                     if (operatorRepository.Operators.ContainsKey(item))
                     {
                         //reset -
@@ -237,7 +258,15 @@ namespace Asamblor
                                 ////sau e branch
                                 if (offset != "")
                                 {
-                                    instruction = IR + offset;
+                                    instruction = IR;
+                                    foreach (var label in Labels)
+                                    {
+                                        if (label.Item1.Contains(offset))
+                                        {
+                                            instruction += CreateBinaryValueForNumber(lineCount - label.Item2, 8);
+                                        }
+                                    }
+
                                     offset = "";
                                 }
                             }
@@ -249,11 +278,28 @@ namespace Asamblor
                             {
                                 instruction = IR;
                             }
-                            operands.Clear();
+
                             PrintInstruction(instruction);
+                            //daca e index sau imediata - adaugi 2 octeti adica codificarea pe biti a valorii
+                            foreach (var operand in operands)
+                            {
+                                if (operand.Item3 != "-")
+                                {
+                                    var octet = CreateBinaryValueForNumber(Convert.ToInt32(operand.Item3), 16);
+                                    PrintInstruction("operand octet: " + octet);
+                                }
+                            }
+                            operands.Clear();
                         }
 
                         IR = operatorRepository.Operators[item];
+                        lineCount += 2;
+                        if (item.Contains("b"))
+                        {
+                            offset = asmElements[i + 1];
+                            //sa sara peste urmatorul rand daca o gasit offset
+                            i++;
+                        }
                     }
                     else
                     {
@@ -280,6 +326,52 @@ namespace Asamblor
                     }
                 }
             }
+
+            if (IR != "")
+            {
+                var instruction = "";
+                //sau e branch
+                if (offset != "")
+                {
+                    instruction = IR;
+                    foreach (var label in Labels)
+                    {
+                        if (label.Item1.Contains(offset))
+                        {
+                            instruction += CreateBinaryValueForNumber(lineCount - label.Item2, 8);
+                        }
+                    }
+                    offset = "";
+                }
+                else if (operands.Count == 1)
+                {
+                    // cu un operand
+                    instruction = IR + operands[0].Item2 + operands[0].Item1;
+                }
+                else if (operands.Count == 2)
+                {
+                    //Mov R5,R4 - oppcode + mas+ rs+mad+rd
+                    // //operands[0]- contine  registru + mad + daca e indexat
+                    //operands[1] - contine  registru + mas + daca e indexat
+                    instruction = IR + operands[1].Item2 + operands[1].Item1 + operands[0].Item2 + operands[0].Item1;
+                }
+                else
+                {
+                    instruction = IR;
+                }
+
+                PrintInstruction(instruction);
+                //daca e index sau imediata - adaugi 2 octeti adica codificarea pe biti a valorii
+                foreach (var operand in operands)
+                {
+                    if (operand.Item3 != "-")
+                    {
+                        var octet = CreateBinaryValueForNumber(Convert.ToInt32(operand.Item3), 16);
+                        PrintInstruction("operand octet:" + octet);
+                    }
+                }
+                operands.Clear();
+            }
         }
 
         //adresare indexata (R4+1)
@@ -294,6 +386,7 @@ namespace Asamblor
 
         private void ShowBinaryCode_Clicked(object sender, EventArgs e)
         {
+            FindLabels();
             GetInstructions();
         }
 

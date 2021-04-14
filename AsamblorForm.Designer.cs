@@ -152,7 +152,7 @@ namespace Asamblor
             // 
             this.binaryTxt.Location = new System.Drawing.Point(348, 63);
             this.binaryTxt.Name = "binaryTxt";
-            this.binaryTxt.Size = new System.Drawing.Size(195, 179);
+            this.binaryTxt.Size = new System.Drawing.Size(327, 179);
             this.binaryTxt.TabIndex = 9;
             this.binaryTxt.Text = "";
             // 
