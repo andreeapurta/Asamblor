@@ -5,13 +5,10 @@ namespace Asamblor
     public class OperatorRepository
     {
         public Dictionary<string, string> Operators { get; private set; }
-        public Dictionary<string, string> OtherOperators { get; private set; }
 
         public OperatorRepository()
         {
             Operators = new Dictionary<string, string>();
-            OtherOperators = new Dictionary<string, string>();
-
             AddOperators();
         }
 
@@ -60,25 +57,25 @@ namespace Asamblor
 
         private void CreateOtherOperators()
         {
-            OtherOperators.Add("clc", "1110000000000000");
-            OtherOperators.Add("clv", "1110000000000001");
-            OtherOperators.Add("clz", "1110000000000010");
-            OtherOperators.Add("cls", "1110000000000011");
-            OtherOperators.Add("ccc", "1110000000000100");
-            OtherOperators.Add("sec", "1110000000000101");
-            OtherOperators.Add("sev", "1110000000000110");
-            OtherOperators.Add("sez", "1110000000000111");
-            OtherOperators.Add("ses", "1110000000001000");
-            OtherOperators.Add("scc", "1110000000001001");
-            OtherOperators.Add("nop", "1110000000001010");
-            OtherOperators.Add("ret", "1110000000001011");
-            OtherOperators.Add("halt", "1110000000001100");
-            OtherOperators.Add("wait", "1110000000001101");
-            OtherOperators.Add("pushpc", "1100000000001110");
-            OtherOperators.Add("poppc", "1100000000001111");
-            OtherOperators.Add("pushflag", "1100000000010000");
-            OtherOperators.Add("popflag", "1100000000010001");
-            OtherOperators.Add("reti", "1100000000010010");
+            Operators.Add("clc", "1110000000000000");
+            Operators.Add("clv", "1110000000000001");
+            Operators.Add("clz", "1110000000000010");
+            Operators.Add("cls", "1110000000000011");
+            Operators.Add("ccc", "1110000000000100");
+            Operators.Add("sec", "1110000000000101");
+            Operators.Add("sev", "1110000000000110");
+            Operators.Add("sez", "1110000000000111");
+            Operators.Add("ses", "1110000000001000");
+            Operators.Add("scc", "1110000000001001");
+            Operators.Add("nop", "1110000000001010");
+            Operators.Add("ret", "1110000000001011");
+            Operators.Add("reti", "1110000000001100");
+            Operators.Add("halt", "1110000000001101");
+            Operators.Add("wait", "1110000000001110");
+            Operators.Add("pushpc", "1110000000001111");
+            Operators.Add("poppc", "1110000000010000");
+            Operators.Add("pushflag", "1110000000010001");
+            Operators.Add("popflag", "1110000000100010");
         }
 
         private void AddOperators()

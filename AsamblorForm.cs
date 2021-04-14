@@ -21,6 +21,9 @@ namespace Asamblor
             operatorRepository = new OperatorRepository();
             registerRepository = new RegisterRepository();
             InitializeComponent();
+            openFileBtn.Click += new EventHandler(OpenFile_Clicked);
+            parseFileBtn.Click += new EventHandler(ParseFile_Clicked);
+            generateBinaryFileBtn.Click += new EventHandler(ShowBinaryCode_Clicked);
         }
 
         public void DisplayResult(Label label)
@@ -38,13 +41,6 @@ namespace Asamblor
 
         private void Form1_Load(object sender, EventArgs e)
         {
-        }
-
-        private void Menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            openFileBtn.Click += new EventHandler(OpenFile_Clicked);
-            parseFileBtn.Click += new EventHandler(ParseFile_Clicked);
-            generateBinaryFileBtn.Click += new EventHandler(ShowBinaryCode_Clicked);
         }
 
         private void OpenFile_Clicked(object sender, EventArgs e)
@@ -146,19 +142,17 @@ namespace Asamblor
             List<(string, string, string)> operands = new List<(string, string, string)>();
             string IR = "";
 
-
             //operands[0]- contine  registru + mad + daca e indexat
             //operands[1] - contine  registru + mas + daca e indexat
             for (int i = 0; i < asmElements.Count; i++)
             {
                 var item = asmElements[i];
 
-
-
-                //daca pe linie exista un string care  paote fi convertit in numar il adaug in operands - pt adresarea imediata 
+                //daca pe linie exista un string care  paote fi convertit in numar il adaug in operands - pt adresarea imediata
                 if (Int32.TryParse(item, out number))
                 {
-                    operands.Add(("0000", "00", item));
+                    number = Convert.ToInt32(item);
+                    operands.Add((CreateBinaryValueForNumber(number, 4), "00", "-"));
                     lineCount += 2;
                 }
                 //verific daca am MOV, r4.. chestii care sunt mai mici de 3  // tot ce e adresare directa
@@ -180,14 +174,12 @@ namespace Asamblor
                             //sau e branch
                             if (offset != "")
                             {
-
                                 instruction = IR;
                                 foreach (var label in Labels)
                                 {
                                     if (label.Item1.Equals(offset))
                                     {
                                         instruction += CreateOffsetForLabel(lineCount - label.Item2);
-
                                     }
                                 }
                             }
@@ -195,8 +187,7 @@ namespace Asamblor
                             if (operands.Count == 1)
                             {
                                 // cu un operand
-                                instruction = IR + operands[0];
-
+                                instruction = IR + operands[0].Item2 + operands[0].Item1;
                             }
                             else if (operands.Count == 2)
                             {
@@ -204,7 +195,6 @@ namespace Asamblor
                                 // //operands[0]- contine  registru + mad + daca e indexat
                                 //operands[1] - contine  registru + mas + daca e indexat
                                 instruction = IR + operands[1].Item2 + operands[1].Item1 + operands[0].Item2 + operands[0].Item1;
-
                             }
                             else
                             {
@@ -264,7 +254,6 @@ namespace Asamblor
                         }
 
                         IR = operatorRepository.Operators[item];
-
                     }
                     else
                     {
@@ -276,16 +265,16 @@ namespace Asamblor
                                 var split = item.Split("+");
                                 //am scos parantez
                                 //MOV R4,[R4+5]
-                                // opp + mas + rs + mad + rd 
+                                // opp + mas + rs + mad + rd
                                 // //operands[0]- contine  registru + mad + daca e indexat
                                 //operands[1] - contine  registru + mas + daca e indexat
-                                operands.Add((split[0].Substring(1, split[0].Length - 1), "11", split[1].Substring(0, split[1].Length - 1)));
+                                operands.Add((registerRepository.Registers[(split[0].Substring(1, split[0].Length - 1))], "11", split[1].Substring(0, split[1].Length - 1)));
                                 lineCount += 2;
                             }
                             else
                             {   //[R4]
                                 //prima si ultima parannteza
-                                operands.Add((item.Substring(1, item.Length - 2), "10", "-"));
+                                operands.Add((registerRepository.Registers[item.Substring(1, item.Length - 2)], "10", "-"));
                             }
                         }
                     }
@@ -306,6 +295,11 @@ namespace Asamblor
         private void ShowBinaryCode_Clicked(object sender, EventArgs e)
         {
             GetInstructions();
+        }
+
+        private string CreateBinaryValueForNumber(int number, int length)
+        {
+            return (length > 1 ? CreateBinaryValueForNumber(number >> 1, length - 1) : null) + "01"[number & 1];
         }
 
         private string CreateOffsetForLabel(int n)
@@ -338,5 +332,8 @@ namespace Asamblor
             return x;
         }
 
+        private void menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+        }
     }
 }
