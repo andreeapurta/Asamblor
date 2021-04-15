@@ -11,7 +11,6 @@ namespace Asamblor
     {
         public OperatorRepository operatorRepository;
         public RegisterRepository registerRepository;
-        /* List which will store each token (element) read from ASM file */
         private List<String> asmElements = new List<String>();
         private List<(string, int)> Labels = new List<(string, int)>();
         private string fileName = "";
@@ -152,7 +151,9 @@ namespace Asamblor
             var lineCount = 0;
             int number = 0;
             string offset = "";
-            List<(string, string, string)> operands = new List<(string, string, string)>();
+            List<(string, string, string)> operands = new List<(string, string, string)>(); //mereu punem în operand, de ex, mov r4 r5
+                                                                                            //R4 operands[0]
+                                                                                            //R5 operans[1]
             string IR = "";
 
             //operands[0]- contine  registru + mad + daca e indexat
@@ -290,7 +291,7 @@ namespace Asamblor
 
                         IR = operatorRepository.Operators[item];
                         lineCount += 2;
-                        if (item.Contains("b"))
+                        if (item.StartsWith("b"))
                         {
                             offset = asmElements[i + 1];
                             //sa sara peste urmatorul rand daca o gasit offset
@@ -370,8 +371,6 @@ namespace Asamblor
             }
         }
 
-        //adresare indexata (R4+1)
-        // ADREASRE INDIRECTA(R6)
 
         //ADD (7) R1,R2 - NU  exista la noi asa cva
 
