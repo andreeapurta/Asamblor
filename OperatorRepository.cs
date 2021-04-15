@@ -16,7 +16,7 @@ namespace Asamblor
         {
             Operators.Add("mov", "0000");
             Operators.Add("add", "0001");
-            Operators.Add("sub", "0010");
+            Operators.Add("suB", "0010");
             Operators.Add("cmp", "0011");
             Operators.Add("and", "0100");
             Operators.Add("or", "0101");

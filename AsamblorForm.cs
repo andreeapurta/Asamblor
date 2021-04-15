@@ -73,13 +73,9 @@ namespace Asamblor
             int lineCounter = 0;
             try
             {
-                /* Create a parser object used for ASM file
-                    REMEMBER: this parser can be used for all kind of text files!!!
-                 */
+             
                 TextFieldParser parser = new TextFieldParser(fileName);
-                /* Reinitialize the Text property of OutputTextBox */
                 parsedCodeTxtBox.Text = "";
-                /* Define delimiters in ASM file */
                 String[] delimiters = { ",", " " };
 
                 /* Specify that the elements in ASM file are delimited by some characters */
@@ -171,7 +167,7 @@ namespace Asamblor
                     operands.Add(("0000", "00", item));
                     lineCount += 2;
                 }
-                //verific daca am MOV, r4.. chestii care sunt mai mici de 3  // tot ce e adresare directa
+                //verific daca am MOV r3, r4 si chestii care sunt mai mici de 3  // tot ce e adresare directa
                 else if (item.Length <= 3)
                 {
                     //daca gasim Registru (R5)
@@ -361,7 +357,7 @@ namespace Asamblor
                 }
 
                 PrintInstruction(instruction);
-                //daca e index sau imediata - adaugi 2 octeti adica codificarea pe biti a valorii
+                //daca e indexata sau imediata - adaugi 2 octeti adica codificarea pe biti a valorii
                 foreach (var operand in operands)
                 {
                     if (operand.Item3 != "-")
@@ -393,40 +389,6 @@ namespace Asamblor
         private string CreateBinaryValueForNumber(int number, int length)
         {
             return (length > 1 ? CreateBinaryValueForNumber(number >> 1, length - 1) : null) + "01"[number & 1];
-        }
-
-        private string CreateOffsetForLabel(int n)
-        {
-            int k = 8;
-            bool neg = false;
-            int a = 0;
-            if (n < 0)
-            {
-                neg = true;
-                n *= -1;
-                n--;
-            }
-            string num = null;
-            string x = null;
-            for (int i = 0; i < k; i++)
-            {
-                if (neg)
-                {
-                    a = n % 2;
-                    if (a == 1) x = string.Concat(Convert.ToString(0), num);
-                    else x = string.Concat(Convert.ToString(1), num);
-                }
-                else
-                    x = string.Concat(Convert.ToString(n % 2), num);
-                num = x;
-                n /= 2;
-            }
-
-            return x;
-        }
-
-        private void menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
         }
     }
 }

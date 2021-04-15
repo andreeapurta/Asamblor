@@ -58,7 +58,7 @@ namespace Asamblor
             this.menu.Size = new System.Drawing.Size(749, 24);
             this.menu.TabIndex = 0;
             this.menu.Text = "menu";
-            this.menu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menu_ItemClicked);
+            //this.menu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menu_ItemClicked);
             // 
             // openFileBtn
             // 
