@@ -422,346 +422,137 @@ namespace Asamblor
             RbusValueLbl.Visible = true;
             MarValueLbl.Visible = true;
 
-            System.Drawing.Pen myPen;
-            System.Drawing.Graphics formGraphics = this.CreateGraphics();
+            Pen myPen;
+            Graphics formGraphics = this.CreateGraphics();
+            myPen = new Pen(Color.Black);
 
-            myPen = new System.Drawing.Pen(System.Drawing.Color.Black);
+            //Bloc Microprogramat
+            formGraphics.DrawRectangle(myPen, 920, 50, 200, 550);
 
-
-
-            //  Bloc Microprogramat
-            formGraphics.DrawRectangle(myPen, 920, 25, 100, 470);
-            //  IR
-            formGraphics.DrawRectangle(myPen, 944, 438, 50, 15);
-
+            //IR
+            formGraphics.DrawRectangle(myPen, 960, 540, 50, 15);
 
             myPen.Width = 3;
             //  SBUS
-            formGraphics.DrawLine(myPen, 1080, 5, 1080, 500);
+            formGraphics.DrawLine(myPen, 1200, 50, 1200, 610);
             //  DBUS
-            formGraphics.DrawLine(myPen, 1120, 5, 1120, 500);
+            formGraphics.DrawLine(myPen, 1260, 50, 1260, 610);
+            //  RBUS
+            formGraphics.DrawLine(myPen, 1500, 50, 1500, 610);
 
             myPen.Width = 1;
             //  ALU
             Point[] ALUpoints = new Point[7];
 
-            ALUpoints[0].X = 1160;
-            ALUpoints[0].Y = 10;
-            ALUpoints[1].X = 1200;
-            ALUpoints[1].Y = 30;
-            ALUpoints[2].X = 1200;
-            ALUpoints[2].Y = 70;
-            ALUpoints[3].X = 1160;
-            ALUpoints[3].Y = 90;
-            ALUpoints[4].X = 1160;
-            ALUpoints[4].Y = 60;
-            ALUpoints[5].X = 1170;
-            ALUpoints[5].Y = 50;
-            ALUpoints[6].X = 1160;
-            ALUpoints[6].Y = 40;
+            ALUpoints[0].X = 1330;
+            ALUpoints[0].Y = 60;
+            ALUpoints[1].X = 1370;
+            ALUpoints[1].Y = 80;
+            ALUpoints[2].X = 1370;
+            ALUpoints[2].Y = 120;
+            ALUpoints[3].X = 1330;
+            ALUpoints[3].Y = 140;
+            ALUpoints[4].X = 1330;
+            ALUpoints[4].Y = 110;
+            ALUpoints[5].X = 1340;
+            ALUpoints[5].Y = 100;
+            ALUpoints[6].X = 1330;
+            ALUpoints[6].Y = 90;
             formGraphics.DrawPolygon(myPen, ALUpoints);
-
-            myPen.Width = 3;
-            //  RBUS
-            formGraphics.DrawLine(myPen, 1320, 5, 1320, 500);
 
             myPen.Width = 1;
 
-            //  DBUS D(ALU)
+            //DBUS to ALU
             myPen.EndCap = LineCap.ArrowAnchor;
-            formGraphics.DrawLine(myPen, 1120, 25, 1160, 25);
+            formGraphics.DrawLine(myPen, 1260, 75, 1330, 75);
 
-            //  SBUS S(ALU)
-            formGraphics.DrawLine(myPen, 1080, 75, 1160, 75);
-
-            //  R(ALU) RBUS
-            formGraphics.DrawLine(myPen, 1200, 50, 1320, 50);
-
-            myPen.EndCap = LineCap.NoAnchor;
+            //SBUS to ALU
+            formGraphics.DrawLine(myPen, 1200, 125, 1330, 125);
 
             //  FLAG
-            formGraphics.DrawRectangle(myPen, 1155, 110, 50, 15);
+            formGraphics.DrawRectangle(myPen, 1300, 150, 50, 15);
 
             Point[] MUXpoints = new Point[4];
 
-            MUXpoints[0].X = 1235;
-            MUXpoints[0].Y = 112;
-            MUXpoints[1].X = 1235;
-            MUXpoints[1].Y = 123;
-            MUXpoints[2].X = 1260;
-            MUXpoints[2].Y = 138;
-            MUXpoints[3].X = 1260;
-            MUXpoints[3].Y = 97;
+            MUXpoints[0].X = 1500; //1235
+            MUXpoints[0].Y = 150; //112
+            MUXpoints[1].X = 1500;
+            MUXpoints[1].Y = 160; //123
+            MUXpoints[2].X = 1320; //1260
+            MUXpoints[2].Y = 170; //138
+            MUXpoints[3].X = 1320; //1260
+            MUXpoints[3].Y = 105; //97
 
-            formGraphics.DrawPolygon(myPen, MUXpoints);
-
-            // COND
-            Point[] CONDpoints = new Point[5];
-
-            CONDpoints[0].X = 1180;
-            CONDpoints[0].Y = 80;
-            CONDpoints[1].X = 1180;
-            CONDpoints[1].Y = 92;
-            CONDpoints[2].X = 1280;
-            CONDpoints[2].Y = 92;
-            CONDpoints[3].X = 1280;
-            CONDpoints[3].Y = 110;
-            CONDpoints[4].X = 1260;
-            CONDpoints[4].Y = 110;
-
-            myPen.EndCap = LineCap.ArrowAnchor;
-
-            formGraphics.DrawLines(myPen, CONDpoints);
-            formGraphics.DrawLine(myPen, 1320, 125, 1260, 125);
-            formGraphics.DrawLine(myPen, 1235, 117, 1205, 117);
-
-            // FLAG DBUS/SBUS
-            formGraphics.DrawLine(myPen, 1155, 122, 1080, 122);
-            formGraphics.DrawLine(myPen, 1155, 114, 1120, 114);
+            //formGraphics.DrawPolygon(myPen, MUXpoints);
 
             //  REGISTER FILE
-            formGraphics.DrawRectangle(myPen, 1155, 150, 50, 45);
+            formGraphics.DrawRectangle(myPen, 1300, 200, 50, 45);
 
-            formGraphics.DrawLine(myPen, 1320, 174, 1205, 174);
-            formGraphics.DrawLine(myPen, 1155, 160, 1120, 160);
-            formGraphics.DrawLine(myPen, 1155, 185, 1080, 185);
+            //formGraphics.DrawLine(myPen, 1400, 174, 1300, 174);
+            //formGraphics.DrawLine(myPen, 1300, 180, 1300, 180);
+            //formGraphics.DrawLine(myPen, 1300, 200, 1080, 200);
 
             //  SP
-            formGraphics.DrawRectangle(myPen, 1155, 215, 50, 15);           // din 45 in 45
-            formGraphics.DrawLine(myPen, 1320, 222, 1205, 222);
-            formGraphics.DrawLine(myPen, 1155, 219, 1120, 219);
-            formGraphics.DrawLine(myPen, 1155, 226, 1080, 226);
+            formGraphics.DrawRectangle(myPen, 1300, 280, 50, 15);    //mypen, sus, jos, latime, inaltime     
+            //formGraphics.DrawLine(myPen, 1320, 222, 1205, 222);
+            //formGraphics.DrawLine(myPen, 1155, 219, 1120, 219);
+            //formGraphics.DrawLine(myPen, 1155, 226, 1080, 226);
 
             //  T
-            formGraphics.DrawRectangle(myPen, 1155, 250, 50, 15);
-            formGraphics.DrawLine(myPen, 1320, 257, 1205, 257);
-            formGraphics.DrawLine(myPen, 1155, 254, 1120, 254);
-            formGraphics.DrawLine(myPen, 1155, 261, 1080, 261);
+            formGraphics.DrawRectangle(myPen, 1300, 320, 50, 15);
+            //formGraphics.DrawLine(myPen, 1320, 257, 1205, 257);
+            //formGraphics.DrawLine(myPen, 1155, 254, 1120, 254);
+            //formGraphics.DrawLine(myPen, 1155, 261, 1080, 261);
 
             //  PC
-            formGraphics.DrawRectangle(myPen, 1155, 295, 50, 15);
-            formGraphics.DrawLine(myPen, 1320, 303, 1205, 303);
-            formGraphics.DrawLine(myPen, 1155, 299, 1120, 299);
-            formGraphics.DrawLine(myPen, 1155, 306, 1080, 306);
+            formGraphics.DrawRectangle(myPen, 1300, 360, 50, 15);
+            //formGraphics.DrawLine(myPen, 1320, 303, 1205, 303);
+            //formGraphics.DrawLine(myPen, 1155, 299, 1120, 299);
+            //formGraphics.DrawLine(myPen, 1155, 306, 1080, 306);
 
             //  IVR
-            formGraphics.DrawRectangle(myPen, 1155, 340, 50, 15);
-            formGraphics.DrawLine(myPen, 1320, 348, 1205, 348);
-            formGraphics.DrawLine(myPen, 1155, 344, 1120, 344);
-            formGraphics.DrawLine(myPen, 1155, 351, 1080, 351);
+            formGraphics.DrawRectangle(myPen, 1300, 420, 50, 15);
+            //formGraphics.DrawLine(myPen, 1320, 348, 1205, 348);
+            //formGraphics.DrawLine(myPen, 1155, 344, 1120, 344);
+            //formGraphics.DrawLine(myPen, 1155, 351, 1080, 351);
 
             //  ADR
-            formGraphics.DrawRectangle(myPen, 1155, 385, 50, 15);
-            formGraphics.DrawLine(myPen, 1320, 393, 1205, 393);
-            formGraphics.DrawLine(myPen, 1155, 389, 1120, 389);
-            formGraphics.DrawLine(myPen, 1155, 396, 1080, 396);
+            formGraphics.DrawRectangle(myPen, 1300, 460, 50, 15);
+            //formGraphics.DrawLine(myPen, 1320, 393, 1205, 393);
+            //formGraphics.DrawLine(myPen, 1155, 389, 1120, 389);
+            //formGraphics.DrawLine(myPen, 1155, 396, 1080, 396);
 
             //  MDR
-            formGraphics.DrawRectangle(myPen, 1155, 430, 50, 15);
-            formGraphics.DrawLine(myPen, 1155, 434, 1120, 434);
-            formGraphics.DrawLine(myPen, 1155, 441, 1080, 441);
+            formGraphics.DrawRectangle(myPen, 1300, 500, 50, 15);
+            //formGraphics.DrawLine(myPen, 1155, 434, 1120, 434);
+            //formGraphics.DrawLine(myPen, 1155, 441, 1080, 441);
 
 
-            formGraphics.DrawLine(myPen, 995, 441, 1080, 441);
-            formGraphics.DrawLine(myPen, 995, 449, 1120, 449);
 
-            Point[] MUXpoints2 = new Point[4];
-
-            MUXpoints2[0].X = 1257;
-            MUXpoints2[0].Y = 455;
-            MUXpoints2[1].X = 1243;
-            MUXpoints2[1].Y = 455;
-            MUXpoints2[2].X = 1230;
-            MUXpoints2[2].Y = 480;
-            MUXpoints2[3].X = 1270;
-            MUXpoints2[3].Y = 480;
-
-            formGraphics.DrawPolygon(myPen, MUXpoints2);
-
-            //  MUX MDR
-            Point[] MUXMDR = new Point[3];
-            MUXMDR[0].X = 1250;
-            MUXMDR[0].Y = 455;
-            MUXMDR[1].X = 1250;
-            MUXMDR[1].Y = 438;
-            MUXMDR[2].X = 1205;
-            MUXMDR[2].Y = 438;
-            formGraphics.DrawLines(myPen, MUXMDR);
-
-            //  RBUS MUX
-            Point[] RBUSMUX = new Point[3];
-            RBUSMUX[0].X = 1320;
-            RBUSMUX[0].Y = 495;
-            RBUSMUX[1].X = 1260;
-            RBUSMUX[1].Y = 495;
-            RBUSMUX[2].X = 1260;
-            RBUSMUX[2].Y = 480;
-
-            formGraphics.DrawLines(myPen, RBUSMUX);
-
-            Point[] MUX = new Point[3];
-            MUX[0].X = 1180;
-            MUX[0].Y = 580;
-            MUX[1].X = 1240;
-            MUX[1].Y = 580;
-            MUX[2].X = 1240;
-            MUX[2].Y = 480;
-            formGraphics.DrawLines(myPen, MUX);
-
-            Point[] IR = new Point[4];
-            IR[0].X = 1180;
-            IR[0].Y = 580;
-            IR[1].X = 904;
-            IR[1].Y = 580;
-            IR[2].X = 904;
-            IR[2].Y = 445;
-            IR[3].X = 944;
-            IR[3].Y = 445;
-            formGraphics.DrawLines(myPen, IR);
+            //formGraphics.DrawLine(myPen, 995, 441, 1080, 441);
+            //formGraphics.DrawLine(myPen, 995, 449, 1120, 449);
 
             //  MEMORY
-            formGraphics.DrawRectangle(myPen, 1145, 500, 70, 55);
+            formGraphics.DrawRectangle(myPen, 1300, 600, 95, 55);
 
-            formGraphics.DrawLine(myPen, 1180, 555, 1180, 580);
-
-            Point[] MDRMEM = new Point[4];
-            MDRMEM[0].X = 1133;
-            MDRMEM[0].Y = 434;
-            MDRMEM[1].X = 1133;
-            MDRMEM[1].Y = 490;
-            MDRMEM[2].X = 1180;
-            MDRMEM[2].Y = 490;
-            MDRMEM[3].X = 1180;
-            MDRMEM[3].Y = 500;
-            formGraphics.DrawLines(myPen, MDRMEM);
-
-            Point[] ADRMEM = new Point[3];
-            ADRMEM[0].X = 1100;
-            ADRMEM[0].Y = 396;
-            ADRMEM[1].X = 1100;
-            ADRMEM[1].Y = 540;
-            ADRMEM[2].X = 1145;
-            ADRMEM[2].Y = 540;
-            formGraphics.DrawLines(myPen, ADRMEM);
-
-            float[] dashValues = { 2, 2 };
-            myPen.DashPattern = dashValues;
-
-            // dashed lines
-
-            Point[] BGCALU = new Point[5];
-            BGCALU[0].X = 1020;
-            BGCALU[0].Y = 40;
-            BGCALU[1].X = 1030;
-            BGCALU[1].Y = 40;
-            BGCALU[2].X = 1030;
-            BGCALU[2].Y = 3;
-            BGCALU[3].X = 1180;
-            BGCALU[3].Y = 3;
-            BGCALU[4].X = 1180;
-            BGCALU[4].Y = 20;
-            formGraphics.DrawLines(myPen, BGCALU);
-
-            Point[] BGCFLAG = new Point[3];
-            BGCFLAG[0].X = 1020;
-            BGCFLAG[0].Y = 100;
-            BGCFLAG[1].X = 1175;
-            BGCFLAG[1].Y = 100;
-            BGCFLAG[2].X = 1175;
-            BGCFLAG[2].Y = 110;
-            formGraphics.DrawLines(myPen, BGCFLAG);
-
-            Point[] BGCMUX = new Point[3];
-            BGCMUX[0].X = 1175;
-            BGCMUX[0].Y = 100;
-            BGCMUX[1].X = 1243;
-            BGCMUX[1].Y = 100;
-            BGCMUX[2].X = 1243;
-            BGCMUX[2].Y = 107;
-            formGraphics.DrawLines(myPen, BGCMUX);
-
-            Point[] BGCREGISTER = new Point[3];
-            BGCREGISTER[0].X = 1020;
-            BGCREGISTER[0].Y = 140;
-            BGCREGISTER[1].X = 1175;
-            BGCREGISTER[1].Y = 140;
-            BGCREGISTER[2].X = 1175;
-            BGCREGISTER[2].Y = 150;
-            formGraphics.DrawLines(myPen, BGCREGISTER);
-
-            Point[] BGCSP = new Point[3];
-            BGCSP[0].X = 1020;
-            BGCSP[0].Y = 205;
-            BGCSP[1].X = 1175;
-            BGCSP[1].Y = 205;
-            BGCSP[2].X = 1175;
-            BGCSP[2].Y = 215;
-            formGraphics.DrawLines(myPen, BGCSP);                                                                 //45 in 45
-
-            Point[] BGCT = new Point[3];
-            BGCT[0].X = 1020;
-            BGCT[0].Y = 240;
-            BGCT[1].X = 1175;
-            BGCT[1].Y = 240;
-            BGCT[2].X = 1175;
-            BGCT[2].Y = 250;
-            formGraphics.DrawLines(myPen, BGCT);
-
-            Point[] BGCPC = new Point[3];
-            BGCPC[0].X = 1020;
-            BGCPC[0].Y = 285;
-            BGCPC[1].X = 1175;
-            BGCPC[1].Y = 285;
-            BGCPC[2].X = 1175;
-            BGCPC[2].Y = 295;
-            formGraphics.DrawLines(myPen, BGCPC);
-
-            Point[] BGCIVR = new Point[3];
-            BGCIVR[0].X = 1020;
-            BGCIVR[0].Y = 330;
-            BGCIVR[1].X = 1175;
-            BGCIVR[1].Y = 330;
-            BGCIVR[2].X = 1175;
-            BGCIVR[2].Y = 340;
-            formGraphics.DrawLines(myPen, BGCIVR);
-
-            Point[] BGCADR = new Point[3];
-            BGCADR[0].X = 1020;
-            BGCADR[0].Y = 375;
-            BGCADR[1].X = 1175;
-            BGCADR[1].Y = 375;
-            BGCADR[2].X = 1175;
-            BGCADR[2].Y = 385;
-            formGraphics.DrawLines(myPen, BGCADR);
-
-            Point[] BGCMDR = new Point[3];
-            BGCMDR[0].X = 1020;
-            BGCMDR[0].Y = 420;
-            BGCMDR[1].X = 1175;
-            BGCMDR[1].Y = 420;
-            BGCMDR[2].X = 1175;
-            BGCMDR[2].Y = 430;
-            formGraphics.DrawLines(myPen, BGCMDR);
-
-            formGraphics.DrawLine(myPen, 1020, 465, 1238, 465);
-
-            Point[] BGCMEMORY = new Point[4];
-            BGCMEMORY[0].X = 1020;
-            BGCMEMORY[0].Y = 480;
-            BGCMEMORY[1].X = 1035;
-            BGCMEMORY[1].Y = 480;
-            BGCMEMORY[2].X = 1035;
-            BGCMEMORY[2].Y = 515;
-            BGCMEMORY[3].X = 1145;
-            BGCMEMORY[3].Y = 515;
-            formGraphics.DrawLines(myPen, BGCMEMORY);
-
-
-            myPen.Dispose();
-            formGraphics.Dispose();
         }
 
         private void menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void IrLbl_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TValueLbl_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PcValueLbl_Click(object sender, EventArgs e)
         {
 
         }

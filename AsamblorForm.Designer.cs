@@ -72,6 +72,7 @@ namespace Asamblor
             this.IrLbl = new System.Windows.Forms.Label();
             this.IrValueLbl = new System.Windows.Forms.Label();
             this.BgcLbl = new System.Windows.Forms.Label();
+            this.MemoryLbl = new System.Windows.Forms.Label();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,7 +88,7 @@ namespace Asamblor
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Padding = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.menu.Size = new System.Drawing.Size(1467, 30);
+            this.menu.Size = new System.Drawing.Size(1567, 30);
             this.menu.TabIndex = 0;
             this.menu.Text = "menu";
             this.menu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menu_ItemClicked);
@@ -227,7 +228,7 @@ namespace Asamblor
             // SbusLbl
             // 
             this.SbusLbl.AutoSize = true;
-            this.SbusLbl.Location = new System.Drawing.Point(1081, 13);
+            this.SbusLbl.Location = new System.Drawing.Point(1166, 30);
             this.SbusLbl.Name = "SbusLbl";
             this.SbusLbl.Size = new System.Drawing.Size(44, 20);
             this.SbusLbl.TabIndex = 13;
@@ -236,7 +237,7 @@ namespace Asamblor
             // SbusValueLbl
             // 
             this.SbusValueLbl.AutoSize = true;
-            this.SbusValueLbl.Location = new System.Drawing.Point(1094, 37);
+            this.SbusValueLbl.Location = new System.Drawing.Point(1176, 50);
             this.SbusValueLbl.Name = "SbusValueLbl";
             this.SbusValueLbl.Size = new System.Drawing.Size(17, 20);
             this.SbusValueLbl.TabIndex = 14;
@@ -245,7 +246,7 @@ namespace Asamblor
             // DbusLbl
             // 
             this.DbusLbl.AutoSize = true;
-            this.DbusLbl.Location = new System.Drawing.Point(1164, 13);
+            this.DbusLbl.Location = new System.Drawing.Point(1252, 30);
             this.DbusLbl.Name = "DbusLbl";
             this.DbusLbl.Size = new System.Drawing.Size(47, 20);
             this.DbusLbl.TabIndex = 15;
@@ -254,7 +255,7 @@ namespace Asamblor
             // DbusValueLbl
             // 
             this.DbusValueLbl.AutoSize = true;
-            this.DbusValueLbl.Location = new System.Drawing.Point(1178, 37);
+            this.DbusValueLbl.Location = new System.Drawing.Point(1265, 50);
             this.DbusValueLbl.Name = "DbusValueLbl";
             this.DbusValueLbl.Size = new System.Drawing.Size(17, 20);
             this.DbusValueLbl.TabIndex = 16;
@@ -263,7 +264,7 @@ namespace Asamblor
             // AluLbl
             // 
             this.AluLbl.AutoSize = true;
-            this.AluLbl.Location = new System.Drawing.Point(1266, 49);
+            this.AluLbl.Location = new System.Drawing.Point(1364, 50);
             this.AluLbl.Name = "AluLbl";
             this.AluLbl.Size = new System.Drawing.Size(46, 20);
             this.AluLbl.TabIndex = 17;
@@ -272,7 +273,7 @@ namespace Asamblor
             // AluValueLbl
             // 
             this.AluValueLbl.AutoSize = true;
-            this.AluValueLbl.Location = new System.Drawing.Point(1308, 49);
+            this.AluValueLbl.Location = new System.Drawing.Point(1416, 50);
             this.AluValueLbl.Name = "AluValueLbl";
             this.AluValueLbl.Size = new System.Drawing.Size(17, 20);
             this.AluValueLbl.TabIndex = 18;
@@ -281,7 +282,7 @@ namespace Asamblor
             // RbusLbl
             // 
             this.RbusLbl.AutoSize = true;
-            this.RbusLbl.Location = new System.Drawing.Point(1383, 13);
+            this.RbusLbl.Location = new System.Drawing.Point(1442, 49);
             this.RbusLbl.Name = "RbusLbl";
             this.RbusLbl.Size = new System.Drawing.Size(45, 20);
             this.RbusLbl.TabIndex = 19;
@@ -290,7 +291,7 @@ namespace Asamblor
             // RbusValueLbl
             // 
             this.RbusValueLbl.AutoSize = true;
-            this.RbusValueLbl.Location = new System.Drawing.Point(1397, 37);
+            this.RbusValueLbl.Location = new System.Drawing.Point(1454, 69);
             this.RbusValueLbl.Name = "RbusValueLbl";
             this.RbusValueLbl.Size = new System.Drawing.Size(17, 20);
             this.RbusValueLbl.TabIndex = 20;
@@ -299,7 +300,7 @@ namespace Asamblor
             // FlagLbl
             // 
             this.FlagLbl.AutoSize = true;
-            this.FlagLbl.Location = new System.Drawing.Point(1266, 114);
+            this.FlagLbl.Location = new System.Drawing.Point(1353, 165);
             this.FlagLbl.Name = "FlagLbl";
             this.FlagLbl.Size = new System.Drawing.Size(53, 20);
             this.FlagLbl.TabIndex = 21;
@@ -308,7 +309,7 @@ namespace Asamblor
             // FlagValueLbl
             // 
             this.FlagValueLbl.AutoSize = true;
-            this.FlagValueLbl.Location = new System.Drawing.Point(1317, 114);
+            this.FlagValueLbl.Location = new System.Drawing.Point(1412, 165);
             this.FlagValueLbl.Name = "FlagValueLbl";
             this.FlagValueLbl.Size = new System.Drawing.Size(17, 20);
             this.FlagValueLbl.TabIndex = 22;
@@ -317,7 +318,7 @@ namespace Asamblor
             // RegFileLbl
             // 
             this.RegFileLbl.AutoSize = true;
-            this.RegFileLbl.Location = new System.Drawing.Point(1275, 143);
+            this.RegFileLbl.Location = new System.Drawing.Point(1374, 209);
             this.RegFileLbl.Name = "RegFileLbl";
             this.RegFileLbl.Size = new System.Drawing.Size(86, 20);
             this.RegFileLbl.TabIndex = 23;
@@ -326,7 +327,7 @@ namespace Asamblor
             // SpLbl
             // 
             this.SpLbl.AutoSize = true;
-            this.SpLbl.Location = new System.Drawing.Point(1275, 192);
+            this.SpLbl.Location = new System.Drawing.Point(1353, 254);
             this.SpLbl.Name = "SpLbl";
             this.SpLbl.Size = new System.Drawing.Size(35, 20);
             this.SpLbl.TabIndex = 24;
@@ -335,7 +336,7 @@ namespace Asamblor
             // SpValueLbl
             // 
             this.SpValueLbl.AutoSize = true;
-            this.SpValueLbl.Location = new System.Drawing.Point(1308, 192);
+            this.SpValueLbl.Location = new System.Drawing.Point(1395, 254);
             this.SpValueLbl.Name = "SpValueLbl";
             this.SpValueLbl.Size = new System.Drawing.Size(17, 20);
             this.SpValueLbl.TabIndex = 25;
@@ -344,7 +345,7 @@ namespace Asamblor
             // TLbl
             // 
             this.TLbl.AutoSize = true;
-            this.TLbl.Location = new System.Drawing.Point(1275, 234);
+            this.TLbl.Location = new System.Drawing.Point(1360, 298);
             this.TLbl.Name = "TLbl";
             this.TLbl.Size = new System.Drawing.Size(27, 20);
             this.TLbl.TabIndex = 26;
@@ -353,16 +354,17 @@ namespace Asamblor
             // TValueLbl
             // 
             this.TValueLbl.AutoSize = true;
-            this.TValueLbl.Location = new System.Drawing.Point(1299, 234);
+            this.TValueLbl.Location = new System.Drawing.Point(1395, 298);
             this.TValueLbl.Name = "TValueLbl";
             this.TValueLbl.Size = new System.Drawing.Size(17, 20);
             this.TValueLbl.TabIndex = 27;
             this.TValueLbl.Text = "0";
+            this.TValueLbl.Click += new System.EventHandler(this.TValueLbl_Click);
             // 
             // PcLbl
             // 
             this.PcLbl.AutoSize = true;
-            this.PcLbl.Location = new System.Drawing.Point(1275, 273);
+            this.PcLbl.Location = new System.Drawing.Point(1360, 347);
             this.PcLbl.Name = "PcLbl";
             this.PcLbl.Size = new System.Drawing.Size(36, 20);
             this.PcLbl.TabIndex = 28;
@@ -371,16 +373,17 @@ namespace Asamblor
             // PcValueLbl
             // 
             this.PcValueLbl.AutoSize = true;
-            this.PcValueLbl.Location = new System.Drawing.Point(1308, 273);
+            this.PcValueLbl.Location = new System.Drawing.Point(1418, 347);
             this.PcValueLbl.Name = "PcValueLbl";
             this.PcValueLbl.Size = new System.Drawing.Size(17, 20);
             this.PcValueLbl.TabIndex = 29;
             this.PcValueLbl.Text = "0";
+            this.PcValueLbl.Click += new System.EventHandler(this.PcValueLbl_Click);
             // 
             // IvrLbl
             // 
             this.IvrLbl.AutoSize = true;
-            this.IvrLbl.Location = new System.Drawing.Point(1275, 317);
+            this.IvrLbl.Location = new System.Drawing.Point(1361, 392);
             this.IvrLbl.Name = "IvrLbl";
             this.IvrLbl.Size = new System.Drawing.Size(41, 20);
             this.IvrLbl.TabIndex = 30;
@@ -389,7 +392,7 @@ namespace Asamblor
             // IvrValueLbl
             // 
             this.IvrValueLbl.AutoSize = true;
-            this.IvrValueLbl.Location = new System.Drawing.Point(1317, 317);
+            this.IvrValueLbl.Location = new System.Drawing.Point(1418, 392);
             this.IvrValueLbl.Name = "IvrValueLbl";
             this.IvrValueLbl.Size = new System.Drawing.Size(17, 20);
             this.IvrValueLbl.TabIndex = 31;
@@ -398,7 +401,7 @@ namespace Asamblor
             // AdrLbl
             // 
             this.AdrLbl.AutoSize = true;
-            this.AdrLbl.Location = new System.Drawing.Point(1275, 358);
+            this.AdrLbl.Location = new System.Drawing.Point(1361, 442);
             this.AdrLbl.Name = "AdrLbl";
             this.AdrLbl.Size = new System.Drawing.Size(49, 20);
             this.AdrLbl.TabIndex = 32;
@@ -407,7 +410,7 @@ namespace Asamblor
             // AdrValueLbl
             // 
             this.AdrValueLbl.AutoSize = true;
-            this.AdrValueLbl.Location = new System.Drawing.Point(1330, 358);
+            this.AdrValueLbl.Location = new System.Drawing.Point(1419, 442);
             this.AdrValueLbl.Name = "AdrValueLbl";
             this.AdrValueLbl.Size = new System.Drawing.Size(17, 20);
             this.AdrValueLbl.TabIndex = 33;
@@ -416,7 +419,7 @@ namespace Asamblor
             // MdrLbl
             // 
             this.MdrLbl.AutoSize = true;
-            this.MdrLbl.Location = new System.Drawing.Point(1275, 395);
+            this.MdrLbl.Location = new System.Drawing.Point(1361, 486);
             this.MdrLbl.Name = "MdrLbl";
             this.MdrLbl.Size = new System.Drawing.Size(52, 20);
             this.MdrLbl.TabIndex = 34;
@@ -425,7 +428,7 @@ namespace Asamblor
             // MdrValueLbl
             // 
             this.MdrValueLbl.AutoSize = true;
-            this.MdrValueLbl.Location = new System.Drawing.Point(1330, 395);
+            this.MdrValueLbl.Location = new System.Drawing.Point(1419, 486);
             this.MdrValueLbl.Name = "MdrValueLbl";
             this.MdrValueLbl.Size = new System.Drawing.Size(17, 20);
             this.MdrValueLbl.TabIndex = 35;
@@ -434,16 +437,17 @@ namespace Asamblor
             // IrLbl
             // 
             this.IrLbl.AutoSize = true;
-            this.IrLbl.Location = new System.Drawing.Point(938, 395);
+            this.IrLbl.Location = new System.Drawing.Point(960, 493);
             this.IrLbl.Name = "IrLbl";
             this.IrLbl.Size = new System.Drawing.Size(32, 20);
             this.IrLbl.TabIndex = 36;
             this.IrLbl.Text = "IR=";
+            this.IrLbl.Click += new System.EventHandler(this.IrLbl_Click);
             // 
             // IrValueLbl
             // 
             this.IrValueLbl.AutoSize = true;
-            this.IrValueLbl.Location = new System.Drawing.Point(976, 395);
+            this.IrValueLbl.Location = new System.Drawing.Point(998, 493);
             this.IrValueLbl.Name = "IrValueLbl";
             this.IrValueLbl.Size = new System.Drawing.Size(17, 20);
             this.IrValueLbl.TabIndex = 37;
@@ -452,18 +456,28 @@ namespace Asamblor
             // BgcLbl
             // 
             this.BgcLbl.AutoSize = true;
-            this.BgcLbl.Location = new System.Drawing.Point(828, 202);
+            this.BgcLbl.Location = new System.Drawing.Point(957, 366);
             this.BgcLbl.Name = "BgcLbl";
             this.BgcLbl.Size = new System.Drawing.Size(111, 20);
             this.BgcLbl.TabIndex = 38;
             this.BgcLbl.Text = "BGC Programat";
+            // 
+            // MemoryLbl
+            // 
+            this.MemoryLbl.AutoSize = true;
+            this.MemoryLbl.Location = new System.Drawing.Point(1307, 619);
+            this.MemoryLbl.Name = "MemoryLbl";
+            this.MemoryLbl.Size = new System.Drawing.Size(71, 20);
+            this.MemoryLbl.TabIndex = 39;
+            this.MemoryLbl.Text = "MEMORY";
             // 
             // AsamblorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(1467, 529);
+            this.ClientSize = new System.Drawing.Size(1567, 684);
+            this.Controls.Add(this.MemoryLbl);
             this.Controls.Add(this.BgcLbl);
             this.Controls.Add(this.IrValueLbl);
             this.Controls.Add(this.IrLbl);
@@ -560,6 +574,7 @@ namespace Asamblor
         private System.Windows.Forms.Label IrLbl;
         private System.Windows.Forms.Label IrValueLbl;
         private System.Windows.Forms.Label BgcLbl;
+        private System.Windows.Forms.Label MemoryLbl;
     }
 }
 
